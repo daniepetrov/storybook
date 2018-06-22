@@ -1,18 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Button = styled.button`
-    display: inline-flex;
+import {Inner, Button} from './../Helpers';
+
+const LandButton = Button.extend`
+    font-weight: bold;
+    background-color: #6ca400;
+    font-family: 'Bebas Neue', Arial, sans-serif;
     color: #ffffff;
-    font-size: 1rem;
-    background-color: palevioletred;
-    padding: 0.5em 1em;
-    border-radius: 0.3em;
-    border: none;
-    outline: none;
-    cursor: pointer;
+    margin-bottom: 5px;
 `;
 
 Button.displayName = 'Button';
 
-export default Button;
+export default LandButton;
