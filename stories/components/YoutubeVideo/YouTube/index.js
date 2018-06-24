@@ -4,6 +4,8 @@ let isApiScriptLoaded;
 
 class YouTube extends React.Component {
 
+    anchor = React.createRef();
+
     componentDidMount() {
 
         if (!isApiScriptLoaded) {
@@ -18,7 +20,7 @@ class YouTube extends React.Component {
         }
 
         isApiScriptLoaded.then((YT) => {
-            this.player = new YT.Player(this.playerAnchor, {
+            this.player = new YT.Player(this.anchor.current, {
                 width: this.props.width || 640,
                 height: this.props.height || 360,
                 videoId: this.props.videoId,
@@ -95,7 +97,7 @@ class YouTube extends React.Component {
 
     render() {
         return (
-            <div ref={(anchor) => {this.playerAnchor = anchor}}></div>
+            <div ref={this.anchor}></div>
         )
     }
 }
