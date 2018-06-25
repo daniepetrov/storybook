@@ -5,8 +5,8 @@ import Button from './components/Button';
 import Logo from './components/Logo';
 import Phone from './components/Phone';
 import Navbar from './components/Navbar';
-import YouTube from './components/YoutubeVideo/YouTube';
 import YoutubeVideo from './components/YoutubeVideo';
+import YoutubeVideoWrapper from './components/YoutubeVideoWrapper';
 
 storiesOf('Button', module)
     .add('Landing button', () => (
@@ -30,16 +30,14 @@ storiesOf('Navbar', module)
     .add('NavbarFixed', () => (
         <Navbar fixedOnScroll/>
     ));
-storiesOf('YouTube', module)
-    .add('YouTube', () => (
-        <div>
-            <YouTube videoId={'FhMghsqunys'}/>
-        </div>
+storiesOf('YoutubeVideo', module)
+    .add('YoutubeVideo', () => (
+        <YoutubeVideo videoId={'FhMghsqunys'}/>
     ));
 
-storiesOf('VideoYoutube', module)
-    .add('VideoYoutube', () => (
-        <YoutubeVideo
+storiesOf('YoutubeVideoWrapper', module)
+    .add('YoutubeVideoWrapper', () => (
+        <YoutubeVideoWrapper
             videoId={'FhMghsqunys'}
         />
     ));
