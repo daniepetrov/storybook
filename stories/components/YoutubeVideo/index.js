@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 let isApiScriptLoaded;
 
@@ -6,24 +7,31 @@ class YoutubeVideo extends React.Component {
 
     anchor = React.createRef();
 
+    onPlayerReady = (e) => this.props.onReady && this.props.onReady(e);
+    onPlayerStateChange = (e) => this.props.onStateChange && this.props.onStateChange(e);
+    onPlayerPlaybackQualityChange = (e) => this.props.onPlaybackQualityChange && this.props.onPlaybackQualityChange(e);
+    onPlayerPlaybackRateChange = (e) => this.props.onPlaybackRateChange && this.props.onPlaybackRateChange(e);
+    onPlayerApiChange = (e) => this.props.onApiChange && this.props.onApiChange(e);
+    onPlayerError = (e) => this.props.onError && this.props.onError(e);
+
     componentDidMount() {
 
         if (!isApiScriptLoaded) {
             isApiScriptLoaded = new Promise((resolve, reject) => {
-                    const apiScripTag = document.createElement('script');
-                    apiScripTag.src = 'https://www.youtube.com/iframe_api';
+                const apiScripTag = document.createElement('script');
+                apiScripTag.src = 'https://www.youtube.com/iframe_api';
 
-                    const firstScriptTag = document.getElementsByTagName('script')[0];
-                    firstScriptTag.parentNode.insertBefore(apiScripTag, firstScriptTag);
+                const firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(apiScripTag, firstScriptTag);
 
-                    apiScripTag.onload = () => {
-                        window.onYouTubeIframeAPIReady = () => resolve(window.YT)
-                    };
+                apiScripTag.onload = () => {
+                    window.onYouTubeIframeAPIReady = () => resolve(window.YT)
+                };
 
-                    apiScripTag.onerror = () => {
-                        reject();
-                    }
+                apiScripTag.onerror = () => {
+                    reject();
                 }
+            }
             )
         }
 
@@ -69,42 +77,6 @@ class YoutubeVideo extends React.Component {
         });
     };
 
-    onPlayerReady = (e) => {
-        if (typeof this.props.onReady === 'function') {
-            this.props.onReady(e)
-        }
-    };
-
-    onPlayerStateChange = (e) => {
-        if (typeof this.props.onStateChange === 'function') {
-            this.props.onStateChange(e)
-        }
-    };
-
-    onPlayerPlaybackQualityChange = (e) => {
-        if (typeof this.props.onPlaybackQualityChange === 'function') {
-            this.props.onPlaybackQualityChange(e)
-        }
-    };
-
-    onPlayerPlaybackRateChange = (e) => {
-        if (typeof this.props.onPlaybackRateChange === 'function') {
-            this.props.onPlaybackRateChange(e)
-        }
-    };
-
-    onPlayerApiChange = (e) => {
-        if (typeof this.props.onApiChange === 'function') {
-            this.props.onApiChange(e)
-        }
-    };
-
-    onPlayerError = (e) => {
-        if (typeof this.props.onError === 'function') {
-            this.props.onError(e)
-        }
-    };
-
     render() {
         return (
             <div>
@@ -112,6 +84,38 @@ class YoutubeVideo extends React.Component {
             </div>
         )
     }
+}
+
+YoutubeVideo.propTypes = {
+    onReady: PropTypes.func,
+    onStateChange: PropTypes.func,
+    onPlaybackQualityChange: PropTypes.func,
+    onPlaybackRateChange: PropTypes.func,
+    onApiChange: PropTypes.func,
+    onError: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    videoId: PropTypes.string.isRequired,
+    autoplay: PropTypes.number,
+    cc_load_policy: PropTypes.number,
+    color: PropTypes.string,
+    controls: PropTypes.number,
+    disablekb: PropTypes.number,
+    enablejsapi: PropTypes.number,
+    end: PropTypes.number,
+    fs: PropTypes.number,
+    hl: PropTypes.string,
+    iv_load_policy: PropTypes.number,
+    list: PropTypes.string,
+    listType: PropTypes.string,
+    loop: PropTypes.number,
+    modestbranding: PropTypes.number,
+    origin: PropTypes.string,
+    playlist: PropTypes.string,
+    playsinline: PropTypes.number,
+    rel: PropTypes.number,
+    showinfo: PropTypes.number,
+    start: PropTypes.number,
 }
 
 export default YoutubeVideo;

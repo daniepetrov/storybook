@@ -1,14 +1,11 @@
 import React from 'react';
-import styled, {keyframes} from 'styled-components';
+import PropTypes from 'prop-types';
+import styled, { keyframes } from 'styled-components';
 import YoutubeVideo from './../YoutubeVideo';
 
 // styles
 
 const Root = styled.div`
-  position: relative;
-`;
-
-const Video = styled.div`
     position: relative;
     height: 0;
     padding-bottom: 56.2%;
@@ -39,10 +36,6 @@ const Pic = styled.div`
         width: 100%;
         height: auto
     }
-`;
-
-const Heading = styled.div`
-    text-align:left;
 `;
 
 const fade = keyframes`
@@ -99,30 +92,39 @@ class YoutubeVideoWrapper extends React.Component {
     };
 
     playYoutubeVideo = (e) => {
-      e.target.playVideo();
+        e.target.playVideo();
     };
 
     render() {
 
-        const videoImg = this.props.videoImg || `https://i.ytimg.com/vi/${this.props.videoId}/sddefault.jpg`;
+        const { videoId, iconColor, videoTitle, isMobile } = this.props;
+
+        const { isPlaying, target } = this.state;
+
+        const videoImg = videoImg || `https://i.ytimg.com/vi/${videoId}/sddefault.jpg`;
 
         return (
             <Root>
-                <Video>
-                    <Pic>
-                        <img src={videoImg} alt=""/>
-                        {this.state.isPlaying ?
-                            <IconPlayLoading onClick={this.handleVideoMount}/> :
-                            <IconPlay iconColor={this.props.iconColor} onClick={this.handleVideoMount}/>}
-                    </Pic>
-                    {this.state.isPlaying && (
-                        <YoutubeVideo videoId={this.props.videoId} autoPlay={1} />
-                    )}
-                </Video>
-                {this.props.videoTitle && <Heading>{this.props.videoTitle}</Heading>}
+                <Pic>
+                    <img src={videoImg} alt="" />
+                    {isPlaying ?
+                        <IconPlayLoading onClick={this.handleVideoMount} /> :
+                        <IconPlay iconColor={iconColor} onClick={this.handleVideoMount} />}
+                </Pic>
+                {isPlaying && (
+                    <YoutubeVideo videoId={videoId} autoPlay={!isMobile && 1} onReady={isMobile && this.playYoutubeVideo} />
+                )}
             </Root>
         )
     }
+}
+
+YoutubeVideoWrapper.propTypes = {
+    videoId: PropTypes.string,
+    iconColor: PropTypes.string,
+    videoTitle: PropTypes.string,
+    isMobile: PropTypes.bool,
+    videoImg: PropTypes.string
 }
 
 export default YoutubeVideoWrapper;
